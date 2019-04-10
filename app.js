@@ -27,8 +27,21 @@ app.use(session(sessionOptions));
 
 // setup locals
 app.use(function (req, res, next) {
-    res.locals.user = req.session.user || null;
-    next();
+    // refetch user data
+    if (!req.session.hasOwnProperty('user')){
+        req.session.user = null;
+    }
+    const user = req.session.user;
+    if (user && user.hasOwnProperty('username')) {
+        const username = user.username;
+        User.findOne({ username }, (err, user) => {
+            res.locals.user = user;
+            next();
+        });
+    }else {
+        res.locals.user = null;
+        next();
+    }
 });
 
 // route handling
@@ -69,7 +82,7 @@ app.post('/signup', (req, res) => {
         // check if username exists
         if (user) { res.render('home', { signUpErr: 'Username taken!' }); }
         else {
-            new User({ username, password }).save((err) => {
+            new User({ username, password }).save((err, user) => {
                 req.session.user = user;
                 req.session.save();
                 res.redirect('portfolio');
@@ -99,7 +112,7 @@ app.post('/create', (req, res) => {
     const card = new Card({ cardName, qrCode, cardContent });
     card.save();
 
-    User.findOneAndUpdate({ username }, { $push: { cards: card } }, () => {
+    User.findOneAndUpdate({ username }, { $push: { cards: card } }, (err, user) => {
         res.redirect('/portfolio');
     });
 });
@@ -110,8 +123,8 @@ app.get('/upload', (req, res) => {
 });
 
 app.post('/signout', (req, res) => {
-    req.session.user = null;
+    req.session.destroy();
     res.redirect('/');
 });
 
-app.listen(port, () => console.log(`App listening on port ${port}!`));
+app.listen(process.env.PORT || port, () => console.log(`App listening on port ${port}!`));
