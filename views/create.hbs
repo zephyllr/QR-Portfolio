@@ -3,15 +3,15 @@
 <div class="row">
   <div class="col m-5">
     <!-- Create QR Form -->
-    <form class="form-signin" method="POST" action="/">
+    <form class="form-signin" method="POST" action="/create">
       <h1 class="h3 mb-3 font-weight-normal">Create New QR Card</h1>
       <div class="form-group">
         <label for="cardName">Card Name</label>
-        <input type="text" class="form-control" id="cardName">
+        <input type="text" name="cardName" class="form-control" id="cardName">
       </div>
       <div class="form-group">
         <label for="cardContent">Card Information</label>
-        <textarea class="form-control" id="cardContent" rows="3"></textarea>
+        <textarea class="form-control" name="cardContent" id="cardContent" rows="3"></textarea>
       </div>
       <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
     </form>

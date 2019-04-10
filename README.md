@@ -71,16 +71,16 @@ An Example Card:
   * A front-end component library for developing with HTML, CSS, and JS
   * Used to build responsive, mobile-first projects on the web
   * Will focus the research more on the responsive grid system 
-* (3 points) QR Code API
+* (2 points) QR Code API
     * API to generate and process QR codes 
     * Needed to create a new QR card for the user portfolio
-    * Small library but requires much more research and testing on mobile, so I have assigned it 3 points.
-* (5 points) React.js
-    * A frontend framework for designing the UI with components and states
-    * Used to update and render only necessary components when data changes
-    * Challenging library to learn, so I've assigned it 5 points
+    * Small library but requires testing on mobile, so I have assigned it 2 points.
+* (5 Selenium)
+    * Automates web applications for testing purposes across many platforms
+    * Needed to quickly and repeatedly test out my CRUD application  
+    * Will focus more on automated tests than the extra features (ie scaling)
 
-10 points total out of 8 required points 
+9 points total out of 8 required points 
 
 ## [Link to Initial Main Project File](app.js) 
 
@@ -88,4 +88,4 @@ An Example Card:
 
 1. [Bootstrap 4](https://getbootstrap.com/)
 2. [QR Code API](http://goqr.me/api/) 
-3. [React](https://reactjs.org/)
+3. [Selenium](https://www.seleniumhq.org/)
