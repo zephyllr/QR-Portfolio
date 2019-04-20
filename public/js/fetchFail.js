@@ -71,7 +71,7 @@ function fetch() {
         "contentType": false,
         "mimeType": "multipart/form-data",
         "data": form
-    }
+    };
 
     $.ajax(settings).done(function (response) {
         console.log(response);

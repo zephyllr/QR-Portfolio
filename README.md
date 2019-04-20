@@ -30,7 +30,7 @@ An Example Card:
 {
     // required fields
     cardname: String, // name of card, unique
-    qrcode: Buffer, // image of qr code
+    qrcode: String, // api of qr code
     // optional fields
     text: String, // qr code text
 }

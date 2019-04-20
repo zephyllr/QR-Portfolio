@@ -1,4 +1,5 @@
 function renderQR(){
+    console.log("hii");
     const cardContent = document.getElementById('cardContent').value;
     const size = 225;
     let api = `http://api.qrserver.com/v1/create-qr-code/?data=${cardContent}&size=${size}x${size}`;
@@ -9,7 +10,8 @@ function renderQR(){
 }
 
 function main() {
-    document.getElementById('cardContent').addEventListener('keyup', renderQR);
+    console.log("helllo");
+    document.getElementById('cardContent').addEventListener('change', renderQR);
 }
 
 document.addEventListener("DOMContentLoaded", main);

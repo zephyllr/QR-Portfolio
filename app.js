@@ -1,7 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const fileUpload = require('express-fileupload');
-const cors = require('cors')
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
 const port = 8000;
@@ -22,8 +22,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // cors
-app.use(cors())
-cors({ credentials: true, origin: true })
+app.use(cors());
+cors({ credentials: true, origin: true });
 
 // setup sessions
 const sessionOptions = {
@@ -121,7 +121,7 @@ app.post('/create', (req, res) => {
     const cardName = sanitize(req.body.cardName);
     const cardContent = sanitize(req.body.cardContent);
     const size = 400;
-    const qrCode = `http://api.qrserver.com/v1/create-qr-code/?data=${cardContent}&size=${size}x${size}`
+    const qrCode = `http://api.qrserver.com/v1/create-qr-code/?data=${cardContent}&size=${size}x${size}`;
 
     const card = new Card({ cardName, qrCode, cardContent });
     card.save();
