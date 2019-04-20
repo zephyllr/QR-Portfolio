@@ -17,9 +17,11 @@
   },
   "homepage": "https://github.com/nyu-csci-ua-0480-008-spring-2019/zephyllr-final-project#readme",
   "devDependencies": {
+    "cors": "^2.8.5",
     "express": "^4.16.4",
+    "express-fileupload": "^1.1.4",
     "express-session": "^1.15.6",
-    "hbs": "^4.0.3",
+    "hbs": "^4.0.4",
     "mongo-sanitize": "^1.0.1",
     "mongoose": "^5.4.22",
     "mongoose-url-slugs": "^1.0.2"

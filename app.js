@@ -1,5 +1,7 @@
 const express = require('express');
 const session = require('express-session');
+const fileUpload = require('express-fileupload');
+const cors = require('cors')
 const app = express();
 const port = 8000;
 
@@ -17,6 +19,10 @@ app.use(express.static(publicPath));
 app.set('view engine', 'hbs');
 app.use(express.urlencoded({ extended: false }));
 
+// cors
+app.use(cors())
+cors({credentials: true, origin: true})
+
 // setup sessions
 const sessionOptions = {
     secret: 'secret key',
@@ -26,23 +32,18 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 
 // setup locals
-app.use(function (req, res, next) {
-    // refetch user data
-    if (!req.session.hasOwnProperty('user')){
-        req.session.user = null;
-    }
-    const user = req.session.user;
-    if (user && user.hasOwnProperty('username')) {
-        const username = user.username;
-        User.findOne({ username }, (err, user) => {
-            res.locals.user = user;
-            next();
-        });
-    }else {
-        res.locals.user = null;
-        next();
-    }
-});
+// app.use(function (req, res, next) {
+//     // refetch user data
+//     // if (!req.session.hasOwnProperty('user')) {
+//     //     req.session.user = null;
+//     // }
+//     const user = req.session.user;
+//     res.locals.user = null;
+//     if (user && user.hasOwnProperty("username")){
+//         res.locals.user = user.username;
+//     }
+//     next();
+// });
 
 // route handling
 
@@ -96,6 +97,15 @@ app.get('/portfolio', (req, res) => {
     res.render('portfolio');
 });
 
+app.get('/loadPortfolio', (req, res) => {
+    const user = req.session.user;
+    if (!user) { res.redirect('/'); }
+    User.find({username: user.username}, function (err, user) {
+        if (err) { return res.status(404).json({ error: 'Error occurred: database error.' }); }
+        res.json(user);
+     });
+});
+
 app.get('/create', (req, res) => {
     if (!req.session.user) { res.redirect('/'); }
     res.render('create');
@@ -117,9 +127,40 @@ app.post('/create', (req, res) => {
     });
 });
 
+app.get('/search', (req, res) => {
+    const user = req.session.user;
+    if (!user) { res.redirect('/'); }
+    const username = user.username;
+
+    User.findOne({ username }, (err, user) => {
+        if (err) { return res.status(404).json({ error: 'Error occurred: database error.' }); }
+        console.log(user);
+        res.json(user);
+    });
+});
+
 app.get('/upload', (req, res) => {
     if (!req.session.user) { res.redirect('/'); }
     res.render('upload');
+});
+
+app.post('/upload', (req, res) => {
+    // sanitize post req attributes
+    const cardName = sanitize(req.body.cardName);
+    // const file = req.body.file;
+    // const qrCode = `http(s)://api.qrserver.com/v1/read-qr-code/?fileurl=${file}`;
+    // console.log(qrCode);
+
+    if (Object.keys(req.files).length == 0) {
+        return res.status(400).send('No files were uploaded.');
+    }
+
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    const file = req.files.file;
+    // const qrCode = `http(s)://api.qrserver.com/v1/read-qr-code/?file=${file.data}`;
+    // console.log(qrCode);
+    res.redirect('/portfolio');
+    
 });
 
 app.post('/signout', (req, res) => {

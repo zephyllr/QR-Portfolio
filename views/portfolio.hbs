@@ -1,6 +1,6 @@
 <section class="jumbotron text-center">
   <div class="container">
-    <h1 class="jumbotron-heading">Welcome, {{user.username}}!</h1>
+    <h1 class="jumbotron-heading">Welcome, <span id="username"></span>!</h1>
     <p class="lead text-muted">Create a new QR code or upload an existing one for your online QR portfolio.</p>
     <p>
       <a href="/create" class="btn btn-primary my-2">Create Card</a>
@@ -20,24 +20,8 @@
       </form>
     </div>
 
-    <div class="row">
-      {{#each user.cards}}
-      <div class="col-md-3">
-        <div class="card mb-3 shadow-sm">
-          <img src="{{qrCode}}" class="img-thumbnail">
-          <div class="card-body">
-            <h3>{{cardName}}</h3>
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-secondary btn-card">View</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary btn-card">Rename</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary btn-card">Delete</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {{/each}}
-    </div>
+    <div id="cards" class="row"></div>
   </div>
 </div>
+
+<script src="js/search.js"></script>

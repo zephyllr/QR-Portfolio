@@ -1,16 +1,16 @@
 <h1 class="m-3">QR Portfolio</h1>
 
-<div class="row">
-  <!-- Create QR Form -->
-  <form class="form-signin" method="POST" action="/">
+<!-- Create QR Form -->
+{{!-- <iframe id="uploadFrame" src="iframe/readQR.html" height="175" width="300" frameBorder="0"></iframe> --}}
+<div id="mainFrame">
     <h1 class="h3 mb-3 font-weight-normal">Upload QR Card</h1>
-    <div class="form-group">
-      <label for="cardName">Card Name</label>
-      <input type="text" class="form-control" id="cardName">
-    </div>
+
+    <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
     <div class="form-group mb-3">
-      <input type="file" class="form-control-file" id="qrImage">
+      <input id="qrImage" name="file" type="file" class="form-control-file" required />
     </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Upload</button>
-  </form>
+    <button id="uploadBtn" class="btn btn-lg btn-primary btn-block" type="submit">Scan</button>
+
 </div>
+
+<script src="js/fetchFail.js"></script>
