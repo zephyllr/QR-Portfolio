@@ -2,6 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const fileUpload = require('express-fileupload');
 const cors = require('cors')
+const bodyParser = require('body-parser');
 const app = express();
 const port = 8000;
 
@@ -17,11 +18,12 @@ const path = require('path');
 const publicPath = path.resolve(__dirname, "public");
 app.use(express.static(publicPath));
 app.set('view engine', 'hbs');
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // cors
 app.use(cors())
-cors({credentials: true, origin: true})
+cors({ credentials: true, origin: true })
 
 // setup sessions
 const sessionOptions = {
@@ -100,10 +102,12 @@ app.get('/portfolio', (req, res) => {
 app.get('/loadPortfolio', (req, res) => {
     const user = req.session.user;
     if (!user) { res.redirect('/'); }
-    User.find({username: user.username}, function (err, user) {
+    const username = user.username;
+
+    User.findOne({ username }, (err, user) => {
         if (err) { return res.status(404).json({ error: 'Error occurred: database error.' }); }
         res.json(user);
-     });
+    });
 });
 
 app.get('/create', (req, res) => {
@@ -127,15 +131,17 @@ app.post('/create', (req, res) => {
     });
 });
 
-app.get('/search', (req, res) => {
+app.post('/search', (req, res) => {
     const user = req.session.user;
-    if (!user) { res.redirect('/'); }
     const username = user.username;
+    const cardName = req.body.cardName;
 
     User.findOne({ username }, (err, user) => {
+        let allCards = user.cards;
+        allCards = allCards.filter(card => card.cardName.toLowerCase().includes(cardName));
+        allCards = allCards.map(card => card.cardName);
         if (err) { return res.status(404).json({ error: 'Error occurred: database error.' }); }
-        console.log(user);
-        res.json(user);
+        res.json(allCards);
     });
 });
 
@@ -160,7 +166,7 @@ app.post('/upload', (req, res) => {
     // const qrCode = `http(s)://api.qrserver.com/v1/read-qr-code/?file=${file.data}`;
     // console.log(qrCode);
     res.redirect('/portfolio');
-    
+
 });
 
 app.post('/signout', (req, res) => {
