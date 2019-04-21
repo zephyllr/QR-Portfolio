@@ -6,9 +6,9 @@ class AllCards {
     filterCards(targetCards){
         this.allCards.forEach((card) => {
             if (targetCards.includes(card.cardName)){
-                card.node.style.display = '';
+                document.getElementById(card.id).style.display = '';
             }else{
-                card.node.style.display = 'none';
+                document.getElementById(card.id).style.display = 'none';
             }
         });
     }
@@ -24,15 +24,24 @@ class Card {
         this.cardName = card.cardName;
         this.qrCode = card.qrCode;
         this.cardContent = card.cardContent;
-        this.node = null;
+    }
+
+    viewModalImage(){
+        const body = document.getElementById('modal-body');
+        const img = document.getElementById(this.id).getElementsByTagName('img')[0];
+        body.textContent = '';
+        body.appendChild(img.cloneNode());
+
+        const title = document.getElementById('modal-title');
+        title.textContent = this.cardName;
     }
 
     render() {
-        const btns = [
-            createElement('button', { class: 'btn btn-sm btn-outline-secondary btn-card' }, 'View'),
-            createElement('button', { class: 'btn btn-sm btn-outline-secondary btn-card' }, 'Delete'),
-        ];
-        const btnGroup = createElement('div', { class: 'btn-group' }, null, ...btns);
+        const viewBtn = createElement('button', { class: 'btn btn-sm btn-outline-secondary btn-card', "data-toggle": "modal", "data-target": "#exampleModalCenter" }, 'View');
+        viewBtn.addEventListener('click', this.viewModalImage.bind(this));       
+        const deleteBtn = createElement('button', { class: 'btn btn-sm btn-outline-secondary btn-card' }, 'Delete');
+
+        const btnGroup = createElement('div', { class: 'btn-group' }, null, viewBtn, deleteBtn);
         const btnDiv = createElement('div', { class: 'd-flex justify-content-between align-items-center' }, null, btnGroup);
         const name = createElement('h3', null, this.cardName);
         const cardBody = createElement('div', { class: 'card-body' }, null, name, btnDiv);
@@ -40,7 +49,6 @@ class Card {
         const cardDiv = createElement('div', { class: 'card mb-3 shadow-sm' }, null, img, cardBody);
         const col = createElement('div', { class: 'col-md-3', id: this.id }, null, cardDiv);
         document.getElementById('cards').appendChild(col);
-        this.node = col;
     }
 }
 
@@ -111,6 +119,8 @@ function main() {
     getAllCards();
     document.getElementById('searchBar').addEventListener('keyup', search);
     document.getElementById('clearSearch').addEventListener('click', clearSearch);
+    document.getElementById('clearSearch').addEventListener('click', clearSearch);
+
 }
 
 const portfolio = new AllCards();
