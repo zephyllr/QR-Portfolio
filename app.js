@@ -1,6 +1,7 @@
 const express = require('express');
 const session = require('express-session');
-const fileUpload = require('express-fileupload');
+const urlencode = require('urlencode');
+const request = require('request');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
@@ -20,10 +21,6 @@ app.use(express.static(publicPath));
 app.set('view engine', 'hbs');
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-// cors
-app.use(cors());
-cors({ credentials: true, origin: true });
 
 // setup sessions
 const sessionOptions = {
@@ -151,22 +148,36 @@ app.get('/upload', (req, res) => {
 });
 
 app.post('/upload', (req, res) => {
+    const user = req.session.user;
+    const username = user.username;
+
     // sanitize post req attributes
     const cardName = sanitize(req.body.cardName);
-    // const file = req.body.file;
-    // const qrCode = `http(s)://api.qrserver.com/v1/read-qr-code/?fileurl=${file}`;
-    // console.log(qrCode);
+    const qrCode = req.body.cardUrl;
+    const cardContent = sanitize(req.body.cardContent);
 
-    if (Object.keys(req.files).length == 0) {
-        return res.status(400).send('No files were uploaded.');
-    }
+    const card = new Card({ cardName, qrCode, cardContent });
+    card.save();
 
-    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-    const file = req.files.file;
-    // const qrCode = `http(s)://api.qrserver.com/v1/read-qr-code/?file=${file.data}`;
-    // console.log(qrCode);
-    res.redirect('/portfolio');
+    User.findOneAndUpdate({ username }, { $push: { cards: card } }, (err, user) => {
+        res.redirect('/portfolio');
+    });
+});
 
+app.post('/scan', (req, res) => {
+    const fileUrl = req.body.fileUrl;
+    const api = `http://api.qrserver.com/v1/read-qr-code/?fileurl=${fileUrl}`;
+
+    request(api, function (err, apiRes, body) {
+        if (err || !(apiRes.statusCode >= 200 && apiRes.statusCode < 400)){
+            return res.status(apiRes.statusCode).json({});
+        }
+        const cardContent = JSON.parse(body)[0]["symbol"][0]["data"];  
+        if (!cardContent){
+            return res.status(400).json({});
+        }
+        return res.json(cardContent);
+    });
 });
 
 app.post('/signout', (req, res) => {

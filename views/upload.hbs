@@ -1,23 +1,35 @@
-<p class="m-3">
-  Dear Grader,
-  This page is still underconstruction due to cor errors.
-  Also, side note, I dont know you,
-  but if you have any insights on how to fix cors, I would appreciate it :)
-</p>
-
 <h1 class="m-3">QR Portfolio</h1>
 
-<!-- Create QR Form -->
-{{!-- <iframe id="uploadFrame" src="iframe/readQR.html" height="175" width="300" frameBorder="0"></iframe> --}}
-<div id="mainFrame">
-    <h1 class="h3 mb-3 font-weight-normal">Upload QR Card</h1>
+<div class="row">
+  <div class="col m-5">
+    <!-- Upload QR Form -->
 
-    <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
-    <div class="form-group mb-3">
-      <input id="qrImage" name="file" type="file" class="form-control-file" required />
-    </div>
-    <button id="uploadBtn" class="btn btn-lg btn-primary btn-block" type="submit">Scan</button>
+    <form class="form-signin" method="POST" action="/upload">
+      <h1 class="h3 mb-3 font-weight-normal">Upload New QR Card</h1>
+      <div class="form-group">
+        <label for="cardName">Card Name</label>
+        <input type="text" name="cardName" class="form-control" id="cardName" required>
+      </div>
+      <div class="form-group">
+        <label for="cardContent">URL to QR Image</label>
+        <textarea class="form-control" name="cardUrl" id="qrCode" rows="3" required
+          placeholder="Example url: https://cdn.qrstuff.com/images/default_qrcode.png"></textarea>
+        <small class="form-text text-muted">Click outside textarea to refresh scanned content.</small>
+        <small class="form-text text-muted">File must be: png, gif, jpg, jpeg</small>
 
+      </div>
+
+      <button id="scanUpload" class="btn btn-lg btn-warning btn-block" type="button">Scan</button>
+      <button style="display: none" id="submitUpload" class="btn btn-lg btn-primary btn-block" type="submit">Upload</button>
+
+    </form>
+  </div>
+
+  <div class="col m-5">
+    <!-- Generated Results-->
+    <h1 class="h3 mb-3 font-weight-normal">Scanned Content of QR Code</h1>
+    <div id="scannedContent" class="card card-body bg-light">Nothing scanned</div>
+  </div>
 </div>
 
-<script src="js/fetchFail.js"></script>
+<script src="js/upload.js"></script>
