@@ -1,20 +1,43 @@
+function fetchData(url = ``, data = {}) {
+    return fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", },
+        body: JSON.stringify(data), // body data type must match "Content-Type" header
+    });
+}
+
+async function deleteCard(evt) {
+    evt.preventDefault();
+
+    // delete from backend
+    const response = await fetchData(`/delete/${this.id}/`);
+    const data = await response.json();
+
+    if (response.status >= 200 && response.status < 400) {
+        portfolio.allCards = portfolio.allCards.filter(( card ) => card.id !== this.id);
+        document.getElementById(this.id).remove();
+    } else {
+        console.log(data.error); // show error 
+    }
+}
+
 class AllCards {
     constructor() {
         this.allCards = [];
     }
 
-    filterCards(targetCards){
+    filterCards(targetCards) {
         this.allCards.forEach((card) => {
-            if (targetCards.includes(card.cardName)){
+            if (targetCards.includes(card.cardName)) {
                 document.getElementById(card.id).style.display = '';
-            }else{
+            } else {
                 document.getElementById(card.id).style.display = 'none';
             }
         });
     }
 
-    showAllCards(){
-        this.allCards.forEach((card) => card.node.style.display = '');
+    showAllCards() {
+        this.allCards.forEach((card) => document.getElementById(card.id).style.display = '');
     }
 }
 
@@ -26,7 +49,7 @@ class Card {
         this.cardContent = card.cardContent;
     }
 
-    viewModalImage(){
+    viewModalImage() {
         const body = document.getElementById('modal-body');
         const img = document.getElementById(this.id).getElementsByTagName('img')[0];
         body.textContent = '';
@@ -38,8 +61,9 @@ class Card {
 
     render() {
         const viewBtn = createElement('button', { class: 'btn btn-sm btn-outline-secondary btn-card', "data-toggle": "modal", "data-target": "#exampleModalCenter" }, 'View');
-        viewBtn.addEventListener('click', this.viewModalImage.bind(this));       
+        viewBtn.addEventListener('click', this.viewModalImage.bind(this));
         const deleteBtn = createElement('button', { class: 'btn btn-sm btn-outline-secondary btn-card' }, 'Delete');
+        deleteBtn.addEventListener('click', deleteCard.bind(this));
 
         const btnGroup = createElement('div', { class: 'btn-group' }, null, viewBtn, deleteBtn);
         const btnDiv = createElement('div', { class: 'd-flex justify-content-between align-items-center' }, null, btnGroup);
@@ -60,14 +84,6 @@ function createElement(ele, attrs, txt, ...children) {
         node.appendChild(children[i]);
     }
     return node;
-}
-
-function fetchData(url = ``, data = {}) {
-    return fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", },
-        body: JSON.stringify(data), // body data type must match "Content-Type" header
-    });
 }
 
 async function search(evt) {
@@ -119,8 +135,6 @@ function main() {
     getAllCards();
     document.getElementById('searchBar').addEventListener('keyup', search);
     document.getElementById('clearSearch').addEventListener('click', clearSearch);
-    document.getElementById('clearSearch').addEventListener('click', clearSearch);
-
 }
 
 const portfolio = new AllCards();

@@ -169,14 +169,28 @@ app.post('/scan', (req, res) => {
     const api = `http://api.qrserver.com/v1/read-qr-code/?fileurl=${fileUrl}`;
 
     request(api, function (err, apiRes, body) {
-        if (err || !(apiRes.statusCode >= 200 && apiRes.statusCode < 400)){
+        if (err || !(apiRes.statusCode >= 200 && apiRes.statusCode < 400)) {
             return res.status(apiRes.statusCode).json({});
         }
-        const cardContent = JSON.parse(body)[0]["symbol"][0]["data"];  
-        if (!cardContent){
+        const cardContent = JSON.parse(body)[0]["symbol"][0]["data"];
+        if (!cardContent) {
             return res.status(400).json({});
         }
         return res.json(cardContent);
+    });
+});
+
+app.post('/delete/:id', (req, res) => {
+    const user = req.session.user;
+    const username = user.username;
+    const _id = req.params.id;
+
+    Card.findByIdAndRemove({ _id }, (err, card) => {
+        if (err) { return res.status(500).json({ error: 'Error occurred: database error.' }); }
+        User.findOneAndUpdate({ username }, { "$pull": { cards: { _id } } }, (err, user) => {
+            if (err) { return res.status(500).json({ error: 'Error occurred: database error.' }); }
+            return res.json({ success: 1 });
+        });
     });
 });
 
