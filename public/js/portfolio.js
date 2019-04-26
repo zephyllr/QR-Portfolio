@@ -1,11 +1,3 @@
-function fetchData(url = ``, data = {}) {
-    return fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", },
-        body: JSON.stringify(data), // body data type must match "Content-Type" header
-    });
-}
-
 async function deleteCard(evt) {
     evt.preventDefault();
 
@@ -28,11 +20,7 @@ class AllCards {
 
     filterCards(targetCards) {
         this.allCards.forEach((card) => {
-            if (targetCards.includes(card.cardName)) {
-                document.getElementById(card.id).style.display = '';
-            } else {
-                document.getElementById(card.id).style.display = 'none';
-            }
+            document.getElementById(card.id).style.display = targetCards.includes(card.cardName) ? '' : 'none';
         });
     }
 
@@ -60,7 +48,7 @@ class Card {
     }
 
     render() {
-        const viewBtn = createElement('button', { class: 'btn btn-sm btn-outline-secondary btn-card', "data-toggle": "modal", "data-target": "#exampleModalCenter" }, 'View');
+        const viewBtn = createElement('button', { class: 'btn btn-sm btn-outline-secondary btn-card', "data-toggle": "modal", "data-target": "#qrModal" }, 'View');
         viewBtn.addEventListener('click', this.viewModalImage.bind(this));
         const deleteBtn = createElement('button', { class: 'btn btn-sm btn-outline-secondary btn-card' }, 'Delete');
         deleteBtn.addEventListener('click', deleteCard.bind(this));
@@ -74,16 +62,6 @@ class Card {
         const col = createElement('div', { class: 'col-md-3', id: this.id }, null, cardDiv);
         document.getElementById('cards').appendChild(col);
     }
-}
-
-function createElement(ele, attrs, txt, ...children) {
-    const node = document.createElement(ele);
-    for (const a in attrs) { node.setAttribute(a, attrs[a]); }
-    node.textContent = txt;
-    for (let i = 0; i < children.length; i++) {
-        node.appendChild(children[i]);
-    }
-    return node;
 }
 
 async function search(evt) {
@@ -131,11 +109,10 @@ function clearSearch(evt) {
     portfolio.showAllCards();
 }
 
-function main() {
+function mainPortfolio() {
     getAllCards();
     document.getElementById('searchBar').addEventListener('keyup', search);
     document.getElementById('clearSearch').addEventListener('click', clearSearch);
 }
 
 const portfolio = new AllCards();
-document.addEventListener("DOMContentLoaded", main);

@@ -15,9 +15,7 @@ function togglePreviewCreate() {
     document.getElementById('previewCreate').style.display = '';
 }
 
-function main() {
+function mainCreate() {
     document.getElementById('cardContent').addEventListener('click', togglePreviewCreate);
     document.getElementById('previewCreate').addEventListener('click', renderQR);
 }
-
-document.addEventListener("DOMContentLoaded", main);
