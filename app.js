@@ -76,13 +76,13 @@ app.post('/signup', (req, res) => {
 });
 
 app.get('/portfolio', (req, res) => {
-    if (!req.session.user) { res.redirect('/'); }
+    if (!req.session.user) { return res.redirect('/'); }
     res.render('portfolio');
 });
 
 app.get('/loadPortfolio', (req, res) => {
     const user = req.session.user;
-    if (!user) { res.redirect('/'); }
+    if (!user) { return res.redirect('/'); }
     const username = user.username;
 
     User.findOne({ username }, (err, user) => {
@@ -107,7 +107,7 @@ app.post('/create', (req, res) => {
     const card = new Card({ cardName, qrCode, cardContent });
     card.save();
 
-    User.findOneAndUpdate({ username }, { $push: { cards: card } }, (err, user) => {
+    User.findOneAndUpdate({ username }, { $push: { cards: card } }, () => {
         res.redirect('/portfolio');
     });
 });
@@ -127,7 +127,7 @@ app.post('/search', (req, res) => {
 });
 
 app.get('/upload', (req, res) => {
-    if (!req.session.user) { res.redirect('/'); }
+    if (!req.session.user) { return res.redirect('/'); }
     res.render('upload');
 });
 
@@ -143,7 +143,7 @@ app.post('/upload', (req, res) => {
     const card = new Card({ cardName, qrCode, cardContent });
     card.save();
 
-    User.findOneAndUpdate({ username }, { $push: { cards: card } }, (err, user) => {
+    User.findOneAndUpdate({ username }, { $push: { cards: card } }, () => {
         res.redirect('/portfolio');
     });
 });
@@ -169,9 +169,9 @@ app.post('/delete/:id', (req, res) => {
     const username = user.username;
     const _id = req.params.id;
 
-    Card.findByIdAndRemove({ _id }, (err, card) => {
+    Card.findByIdAndRemove({ _id }, (err) => {
         if (err) { return res.status(500).json({ error: 'Error occurred: database error.' }); }
-        User.findOneAndUpdate({ username }, { "$pull": { cards: { _id } } }, (err, user) => {
+        User.findOneAndUpdate({ username }, { "$pull": { cards: { _id } } }, (err) => {
             if (err) { return res.status(500).json({ error: 'Error occurred: database error.' }); }
             return res.json({ success: 1 });
         });
@@ -180,6 +180,10 @@ app.post('/delete/:id', (req, res) => {
 
 app.get('/signout', (req, res) => {
     req.session.destroy();
+    res.redirect('/');
+});
+
+app.get('*', (req, res) => {
     res.redirect('/');
 });
 

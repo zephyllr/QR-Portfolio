@@ -1,10 +1,10 @@
+h3 {
+  font-size: unset;
+}
+
 .btn-signout {
   border: none;
   color: lightgray;
-}
-
-h3 {
-  font-size: unset;
 }
 
 .card {
