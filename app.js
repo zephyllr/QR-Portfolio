@@ -115,7 +115,7 @@ app.post('/create', (req, res) => {
 app.post('/search', (req, res) => {
     const user = req.session.user;
     const username = user.username;
-    const cardName = req.body.cardName;
+    const cardName = sanitize(req.body.cardName);
 
     User.findOne({ username }, (err, user) => {
         let allCards = user.cards;
@@ -137,7 +137,7 @@ app.post('/upload', (req, res) => {
 
     // sanitize post req attributes
     const cardName = sanitize(req.body.cardName);
-    const qrCode = req.body.cardUrl;
+    const qrCode = sanitize(req.body.cardUrl);
     const cardContent = sanitize(req.body.cardContent);
 
     const card = new Card({ cardName, qrCode, cardContent });
@@ -149,7 +149,7 @@ app.post('/upload', (req, res) => {
 });
 
 app.post('/scan', (req, res) => {
-    const fileUrl = req.body.fileUrl;
+    const fileUrl = sanitize(req.body.fileUrl);
     const api = `http://api.qrserver.com/v1/read-qr-code/?fileurl=${fileUrl}`;
 
     request(api, function (err, apiRes, body) {
@@ -178,7 +178,7 @@ app.post('/delete/:id', (req, res) => {
     });
 });
 
-app.post('/signout', (req, res) => {
+app.get('/signout', (req, res) => {
     req.session.destroy();
     res.redirect('/');
 });

@@ -8,11 +8,11 @@
       <h1 class="h3 mb-3 font-weight-normal">Create New QR Card</h1>
       <div class="form-group">
         <label for="cardName">Card Name</label>
-        <input type="text" name="cardName" class="form-control" id="cardName" required>
+        <input type="text" name="cardName" class="form-control" id="cardName" maxlength="255" required>
       </div>
       <div class="form-group">
         <label for="cardContent">Card Information</label>
-        <textarea class="form-control" name="cardContent" id="cardContent" rows="3" required></textarea>
+        <textarea class="form-control" name="cardContent" id="cardContent" rows="3" maxlength="500" required></textarea>
         <small class="form-text text-muted">Click outside textarea to refresh QR code.</small>
       </div>
       <button id="previewCreate" class="btn btn-lg btn-success btn-block" type="button">Preview</button>
