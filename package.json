@@ -22,6 +22,7 @@
     "express": "^4.16.4",
     "express-fileupload": "^1.1.4",
     "express-session": "^1.15.6",
+    "gulp": "^4.0.1",
     "hbs": "^4.0.4",
     "mongo-sanitize": "^1.0.1",
     "mongoose": "^5.4.22",

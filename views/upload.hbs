@@ -11,12 +11,10 @@
         <input type="text" name="cardName" class="form-control" id="cardName" required>
       </div>
       <div class="form-group">
-        <label for="cardContent">URL to QR Image</label>
+        <label for="cardUrl">URL to QR Image</label>
         <textarea class="form-control" name="cardUrl" id="qrCode" rows="3" required
-          placeholder="Example url: https://cdn.qrstuff.com/images/default_qrcode.png"></textarea>
-        <small class="form-text text-muted">Click outside textarea to refresh scanned content.</small>
+          placeholder="Ex: https://url_img_address.png"></textarea>
         <small class="form-text text-muted">File must be: png, gif, jpg, jpeg</small>
-
       </div>
 
       <button id="scanUpload" class="btn btn-lg btn-warning btn-block" type="button">Scan</button>
@@ -29,6 +27,15 @@
     <!-- Generated Results-->
     <h1 class="h3 mb-3 font-weight-normal">Scanned Content of QR Code</h1>
     <div id="scannedContent" class="card card-body bg-light">Nothing scanned</div>
+    <hr>
+    <h1 class="h3 mb-3 font-weight-normal">Example URLs</h1>
+    <ul class="no-bullet">
+      <li><a href="https://qph.fs.quoracdn.net/main-qimg-e399a663eb0714896d53a1afd821b811">PayPal</a></li>
+      <li><a href="http://goqr.me/_Resources/Persistent/c51e9cb94c6c3e953542c764bb97a0e1cf033ca3/qrcode-logo-design-starbucks.png">Starbucks</a></li>
+      <li><a href="https://www.qrcode-zebra.com/708e60b5ab5fb86277888fdb7a7f6475.png">Twitter</a></li>
+      <li><a href="https://qrcodego.com/static/qrcode-images/qr-code-logo.png">YouTube</a></li>
+      
+    </ul>
   </div>
 </div>
 

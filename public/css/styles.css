@@ -1,8 +1,26 @@
-.btn-card{
-  min-width: 70px;
-}
-
-.btn-signout{
+.btn-signout {
   border: none;
   color: lightgray;
+}
+
+h3 {
+  font-size: unset;
+}
+
+.card {
+  display: inherit;
+}
+
+.card-body {
+  border-top: 1px solid lightgray;
+}
+
+.img-thumbnail {
+  border: none;
+}
+
+.no-bullet {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }

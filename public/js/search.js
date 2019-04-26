@@ -65,8 +65,8 @@ class Card {
         const deleteBtn = createElement('button', { class: 'btn btn-sm btn-outline-secondary btn-card' }, 'Delete');
         deleteBtn.addEventListener('click', deleteCard.bind(this));
 
-        const btnGroup = createElement('div', { class: 'btn-group' }, null, viewBtn, deleteBtn);
-        const btnDiv = createElement('div', { class: 'd-flex justify-content-between align-items-center' }, null, btnGroup);
+        const btnGroup = createElement('div', null, null, viewBtn, deleteBtn);
+        const btnDiv = createElement('div', { class: 'justify-content-between align-items-center' }, null, btnGroup);
         const name = createElement('h3', null, this.cardName);
         const cardBody = createElement('div', { class: 'card-body' }, null, name, btnDiv);
         const img = createElement('img', { src: this.qrCode, class: 'img-thumbnail' });

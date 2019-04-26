@@ -1,8 +1,6 @@
 const express = require('express');
 const session = require('express-session');
-const urlencode = require('urlencode');
 const request = require('request');
-const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
 const port = 8000;
@@ -29,20 +27,6 @@ const sessionOptions = {
     resave: false
 };
 app.use(session(sessionOptions));
-
-// setup locals
-// app.use(function (req, res, next) {
-//     // refetch user data
-//     // if (!req.session.hasOwnProperty('user')) {
-//     //     req.session.user = null;
-//     // }
-//     const user = req.session.user;
-//     res.locals.user = null;
-//     if (user && user.hasOwnProperty("username")){
-//         res.locals.user = user.username;
-//     }
-//     next();
-// });
 
 // route handling
 
