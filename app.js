@@ -119,7 +119,7 @@ app.post('/search', (req, res) => {
 
     User.findOne({ username }, (err, user) => {
         let allCards = user.cards;
-        allCards = allCards.filter(card => card.cardName.toLowerCase().includes(cardName));
+        allCards = allCards.filter(card => card.cardName.toLowerCase().includes(cardName.toLowerCase()));
         allCards = allCards.map(card => card.cardName);
         if (err) { return res.status(404).json({ error: 'Error occurred: database error.' }); }
         res.json(allCards);
