@@ -1,5 +1,11 @@
 # QR Portfolio
 
+## Run 
+```
+mongod
+npm start
+```
+
 ## Overview
 
 Not everyone carries around their stack of business cards or other identification cards with them at all times. They also prefer not to bring a giant card holder to recieve other people's cards at events or coffee chats. Moreover, it's also pricy to order personalized cards and card holders. This is where an online QR Portfolio comes in handy.
@@ -66,7 +72,7 @@ An Example Card:
 7. as a user, I can delete QR cards
 8. as a user, I can search QR cards
 
-## Research Topics
+<!-- ## Research Topics
 
 * (2 points) Bootstrap
     * A front-end component library for developing with HTML, CSS, and JS
@@ -81,7 +87,7 @@ An Example Card:
     * Needed to automatically concatenate and minify CSS and JS on file change  
     * Optimizes browser performance for reading files and lessens the number of file requests made.
 
-11 points total out of 8 required points 
+11 points total out of 8 required points  -->
 
 ## [Link to Initial Main Project File](app.js) 
 
